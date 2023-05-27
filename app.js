@@ -1,10 +1,16 @@
-var express = require('express');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-var app = express();
+const articleRouter = require('./routes/article');
 
-app.use('/', (req, res) => {
+const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/articles', articleRouter);
+
+app.get('/', (req, res) => {
   console.log('Response Success');
-  res.send('Response Success');
 });
 
 const PORT = process.env.PORT || 8080;
