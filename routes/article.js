@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     if (err) {
       res.status(500).json({ message: err.sqlMessage });
     } else {
-      res.json(result);
+      res.status(200).send(result);
     }
   });
 });
@@ -22,7 +22,7 @@ router.get('/:type', (req, res) => {
     if (err) {
       res.status(500).json({ message: err.sqlMessage });
     } else {
-      res.json(result);
+      res.status(200).send(result);
     }
   });
 });
@@ -35,7 +35,7 @@ router.get('/:id', (req, res) => {
     if (err) {
       res.status(500).json({ message: err.sqlMessage });
     } else {
-      res.json(result);
+      res.status(200).send(result);
     }
   });
 });
