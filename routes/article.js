@@ -7,22 +7,24 @@ router.get('/', (req, res) => {
 
   db.query(query, (err, result) => {
     if (err) {
-      res.status(500).json({ message: err.sqlMessage });
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).json({ message: err.sqlMessage });
     } else {
-      res.status(200).send(result);
+      return res.status(200).send(result);
     }
   });
 });
 
-router.get('/:type', (req, res) => {
+router.get('/type/:type', (req, res) => {
   const type = req.params.type;
 
-  const query = `SELECT * FROM articles WHERE type='${type}'`;
-  db.query(query, (err, result) => {
+  const query = 'SELECT * FROM articles WHERE type=?';
+  db.query(query, [type], (err, result) => {
     if (err) {
-      res.status(500).json({ message: err.sqlMessage });
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).json({ message: err.sqlMessage });
     } else {
-      res.status(200).send(result);
+      return res.status(200).send(result);
     }
   });
 });
@@ -30,12 +32,13 @@ router.get('/:type', (req, res) => {
 router.get('/:id', (req, res) => {
   const id = req.params.id;
 
-  const query = `SELECT * FROM articles WHERE id=${id}`;
-  db.query(query, (err, result) => {
+  const query = 'SELECT * FROM articles WHERE id=?';
+  db.query(query, [id], (err, result) => {
     if (err) {
-      res.status(500).json({ message: err.sqlMessage });
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).json({ message: err.sqlMessage });
     } else {
-      res.status(200).send(result);
+      return res.status(200).send(result);
     }
   });
 });

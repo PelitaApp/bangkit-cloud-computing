@@ -9,3 +9,5 @@ router.get('/:id', (req, res) => {});
 router.post('/create', (req, res) => {});
 
 router.post('/update', (req, res) => {});
+
+module.exports = router;

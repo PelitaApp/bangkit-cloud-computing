@@ -14,3 +14,5 @@ router.get('/total/:userId', (req, res) => {
     }
   });
 });
+
+module.exports = router;
