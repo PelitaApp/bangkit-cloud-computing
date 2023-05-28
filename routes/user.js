@@ -118,7 +118,7 @@ router.get('/:id', (req, res) => {
       return res.status(500).send({ message: 'Internal server error' });
     }
 
-    return res.status(200).send(result);
+    return res.status(200).send(result[0]);
   });
 });
 

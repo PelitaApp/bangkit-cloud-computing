@@ -38,14 +38,39 @@ router.get('/:id', (req, res) => {
       return res.status(500).send({ message: 'Internal server error' });
     }
 
-    return res.status(200).send(result);
+    return res.status(200).send(result[0]);
   });
 });
 
 router.post('/create', (req, res) => {
   const { userId, type, weight, address, status } = req.body;
+
+  const query =
+    'INSERT INTO wastes (user_id, type, weight, address, status) VALUES (?, ?, ?, ?, ?)';
+  db.query(query, [userId, type, weight, address, status], (err, _) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+
+    return res.status(201).send({ message: 'Waste created' });
+  });
 });
 
-router.put('/update/:id', (req, res) => {});
+router.put('/update/:id', (req, res) => {
+  const id = req.params.id;
+  const { type, weight, address, status } = req.body;
+
+  const query =
+    'UPDATE wastes SET type=?, weight=?, address=?, status=? WHERE id=?';
+  db.query(query, [type, weight, address, status, id], (err, _) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+
+    return res.status(201).send({ message: 'Waste updated' });
+  });
+});
 
 module.exports = router;

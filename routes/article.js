@@ -38,7 +38,7 @@ router.get('/:id', (req, res) => {
       console.error('Error executing MySQL query:', err);
       return res.status(500).json({ message: err.sqlMessage });
     } else {
-      return res.status(200).send(result);
+      return res.status(200).send(result[0]);
     }
   });
 });

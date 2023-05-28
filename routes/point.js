@@ -10,7 +10,7 @@ router.get('/total/:userId', (req, res) => {
     if (err) {
       return res.status(500).json({ message: err.sqlMessage });
     } else {
-      return res.status(200).send(result);
+      return res.status(200).send(result[0]);
     }
   });
 });
