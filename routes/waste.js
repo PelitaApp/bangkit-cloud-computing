@@ -4,4 +4,8 @@ const db = require('../config/db');
 
 router.get('/:userId', (req, res) => {});
 
-router.get(':id', (req, res) => {});
+router.get('/:id', (req, res) => {});
+
+router.post('/create', (req, res) => {});
+
+router.post('/update', (req, res) => {});
