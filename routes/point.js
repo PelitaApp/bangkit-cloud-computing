@@ -15,4 +15,56 @@ router.get('/total/:userId', (req, res) => {
   });
 });
 
+router.put('/add/:userId', (req, res) => {
+  const userId = req.params.userId;
+  const { point } = req.body;
+
+  const getQuery = 'SELECT total FROM points WHERE user_id=?';
+  db.query(getQuery, [userId], (err, result) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+
+    const total = result[0]['total'];
+
+    const add = parseInt(total) + parseInt(point);
+    const updateQuery = 'UPDATE points SET total=? WHERE user_id=?';
+    db.query(updateQuery, [add, userId], (err, _) => {
+      if (err) {
+        console.error('Error executing MySQL query:', err);
+        return res.status(500).send({ message: 'Internal server error' });
+      }
+
+      return res.status(200).send({ message: `Point +${point}` });
+    });
+  });
+});
+
+router.put('/reduce/:userId', (req, res) => {
+  const userId = req.params.userId;
+  const { point } = req.body;
+
+  const getQuery = 'SELECT total FROM points WHERE user_id=?';
+  db.query(getQuery, [userId], (err, result) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+
+    const total = result[0]['total'];
+
+    const reduce = parseInt(total) - parseInt(point);
+    const updateQuery = 'UPDATE points SET total=? WHERE user_id=?';
+    db.query(updateQuery, [reduce, userId], (err, _) => {
+      if (err) {
+        console.error('Error executing MySQL query:', err);
+        return res.status(500).send({ message: 'Internal server error' });
+      }
+
+      return res.status(200).send({ message: `Point -${point}` });
+    });
+  });
+});
+
 module.exports = router;
