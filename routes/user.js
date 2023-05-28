@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
 const db = require('../config/db');
 const jwt = require('jsonwebtoken');
 
@@ -23,21 +24,28 @@ router.post('/register', (req, res) => {
       return res.status(409).send({ message: 'Username already exists' });
     }
 
-    const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
-    db.query(query, [username, password], (err, _) => {
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
       if (err) {
-        console.error('Error executing MySQL query:', err);
+        console.error('Error hashing password:', err);
         return res.status(500).send({ message: 'Internal server error' });
       }
 
-      const pointQuery =
-        'INSERT INTO points (user_id, total) VALUES ((SELECT id FROM users WHERE username=?), ?)';
-      db.query(pointQuery, [username, 0], (err, _) => {
+      const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
+      db.query(query, [username, hashedPassword], (err, _) => {
         if (err) {
           console.error('Error executing MySQL query:', err);
           return res.status(500).send({ message: 'Internal server error' });
         }
-        return res.status(201).send({ message: 'Registration successful' });
+
+        const pointQuery =
+          'INSERT INTO points (user_id, total) VALUES ((SELECT id FROM users WHERE username=?), ?)';
+        db.query(pointQuery, [username, 0], (err, _) => {
+          if (err) {
+            console.error('Error executing MySQL query:', err);
+            return res.status(500).send({ message: 'Internal server error' });
+          }
+          return res.status(201).send({ message: 'Registration successful' });
+        });
       });
     });
   });
@@ -64,16 +72,25 @@ router.get('/login', (req, res) => {
         return res.status(500).send({ message: 'Internal server error' });
       }
 
-      if (result === 0) {
-        return res
-          .status(401)
-          .send({ message: 'Invalid username or password ' });
-      }
-
       const user = result[0];
-      const token = jwt.sign({ userId: user.id }, 'secretKey');
+      bcrypt.compare(password, user.password, (err, isMatch) => {
+        if (err) {
+          console.error('Error comparing password:', err);
+          return res.status(500).send({ message: 'Internal server error' });
+        }
 
-      return res.status(200).send({ message: 'Login successful', token });
+        if (!isMatch) {
+          return res
+            .status(401)
+            .send({ message: 'Invalid username or password ' });
+        }
+
+        const token = jwt.sign({ userId: user.id }, 'secretKey');
+
+        return res
+          .status(200)
+          .send({ message: 'Login successful', data: user, token });
+      });
     });
   });
 });
