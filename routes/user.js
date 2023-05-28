@@ -70,10 +70,60 @@ router.get('/login', (req, res) => {
   });
 });
 
-router.get('/:id', (req, res) => {});
+router.get('/', (req, res) => {
+  const query = 'SELECT * FROM users';
 
-router.put('/:id', (req, res) => {});
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).send({ message: 'Internal server error' });
+    }
 
-router.delete('/:id', (req, res) => {});
+    return res.status(200).send(result);
+  });
+});
+
+router.get('/:id', (req, res) => {
+  const id = req.params.id;
+
+  const query = 'SELECT * FROM users WHERE id=?';
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+
+    return res.status(200).send(result);
+  });
+});
+
+router.put('/:id', (req, res) => {
+  const id = req.params.id;
+  const { name, email, address } = req.body;
+
+  const query = 'UPDATE users SET name=?, email=?, address=? WHERE id=?';
+  db.query(query, [name, email, address, id], (err, _) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+
+    return res.status(200).send({ message: 'Update successful' });
+  });
+});
+
+router.delete('/:id', (req, res) => {
+  const id = req.params.id;
+
+  const query = 'DELETE FROM users WHERE id=?';
+  db.query(query, [id], (err, _) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+
+    return res.status(200).send({ message: 'Delete successful' });
+  });
+});
 
 module.exports = router;
