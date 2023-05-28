@@ -30,7 +30,15 @@ router.post('/register', (req, res) => {
         return res.status(500).send({ message: 'Internal server error' });
       }
 
-      return res.status(201).send({ message: 'Registration successful' });
+      const pointQuery =
+        'INSERT INTO points (user_id, total) VALUES ((SELECT id FROM users WHERE username=?), ?)';
+      db.query(pointQuery, [username, 0], (err, _) => {
+        if (err) {
+          console.error('Error executing MySQL query:', err);
+          return res.status(500).send({ message: 'Internal server error' });
+        }
+        return res.status(201).send({ message: 'Registration successful' });
+      });
     });
   });
 });
