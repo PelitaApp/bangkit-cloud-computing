@@ -120,7 +120,7 @@ router.get('/:id', authToken, (req, res) => {
   });
 });
 
-router.put('/:id', authToken, (req, res) => {
+router.put('/update/:id', authToken, (req, res) => {
   const id = req.params.id;
   const { name, email, address } = req.body;
 
@@ -135,7 +135,7 @@ router.put('/:id', authToken, (req, res) => {
   });
 });
 
-router.delete('/:id', authToken, (req, res) => {
+router.delete('/delete/:id', authToken, (req, res) => {
   const id = req.params.id;
 
   const query = 'DELETE FROM users WHERE id=?';
