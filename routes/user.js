@@ -66,34 +66,31 @@ router.get('/login', (req, res) => {
       return res.status(401).send({ message: 'Invalid username or password ' });
     }
 
-    const passQuery = 'SELECT * FROM users WHERE password=?';
-    db.query(passQuery, [password], (err, result) => {
+    const user = result[0];
+    bcrypt.compare(password, user.password, (err, isMatch) => {
       if (err) {
-        console.error('Error executing MySQL query:', err);
+        console.error('Error comparing password:', err);
         return res.status(500).send({ message: 'Internal server error' });
       }
 
-      const user = result[0];
-      bcrypt.compare(password, user.password, (err, isMatch) => {
-        if (err) {
-          console.error('Error comparing password:', err);
-          return res.status(500).send({ message: 'Internal server error' });
-        }
-
-        if (!isMatch) {
-          return res
-            .status(401)
-            .send({ message: 'Invalid username or password ' });
-        }
-
-        const token = jwt.sign({ userId: user.id }, 'secretKey');
-
+      if (!isMatch) {
         return res
-          .status(200)
-          .send({ message: 'Login successful', data: user, token });
-      });
+          .status(401)
+          .send({ message: 'Invalid username or password ' });
+      }
+
+      const token = jwt.sign({ userId: user.id }, 'secretKey');
+
+      return res
+        .status(200)
+        .send({ message: 'Login successful', data: user, token });
     });
   });
+});
+
+router.get('/logout', authToken, (req, res) => {
+  res.setHeader('Authorization', '');
+  res.status(200).send({ message: 'Logout successful' });
 });
 
 router.get('/', authToken, (req, res) => {

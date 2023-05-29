@@ -105,4 +105,19 @@ router.put(
   }
 );
 
+router.put('/taken/:id', authToken, (req, res) => {
+  const id = req.params.id;
+  const status = 'Sudah diambil';
+
+  const query = 'UPDATE wastes SET status=? WHERE id=?';
+  db.query(query, [status, id], (err, _) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+
+    return res.status(200).send({ message: 'Status changed' });
+  });
+});
+
 module.exports = router;
