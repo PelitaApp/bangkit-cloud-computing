@@ -2,15 +2,15 @@ const express = require('express');
 const router = express.Router();
 const Multer = require('multer');
 const db = require('../config/db');
-const multer = require('multer');
 const imgUpload = require('../modules/imgUpload');
+const { authToken } = require('../middleware/authToken');
 
 const multer = Multer({
-  storage: Multer.memoryStorage,
+  storage: Multer.MemoryStorage,
   fileSize: 5 * 1024 * 1024,
 });
 
-router.get('/', (req, res) => {
+router.get('/', authToken, (req, res) => {
   const query = 'SELECT * FROM wastes';
   db.query(query, (err, result) => {
     if (err) {
@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/user/:userId', (req, res) => {
+router.get('/user/:userId', authToken, (req, res) => {
   const userId = req.params.userId;
 
   const query = 'SELECT * FROM wastes WHERE user_id=?';
@@ -36,7 +36,7 @@ router.get('/user/:userId', (req, res) => {
   });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', authToken, (req, res) => {
   const id = req.params.id;
 
   const query = 'SELECT * FROM wastes WHERE id=?';
@@ -52,10 +52,11 @@ router.get('/:id', (req, res) => {
 
 router.post(
   '/create',
-  multer.single('attachment'),
+  authToken,
+  multer.single('image'),
   imgUpload.uploadToGcs,
   (req, res) => {
-    const { userId, type, weight, address, status } = req.body;
+    const { userId, type, weight, address } = req.body;
     let imgUrl = '';
     if (req.file && req.file.cloudStoragePublicUrl) {
       imgUrl = req.file.cloudStoragePublicUrl;
@@ -65,7 +66,7 @@ router.post(
       'INSERT INTO wastes (user_id, type, weight, address, image, status) VALUES (?, ?, ?, ?, ?, ?)';
     db.query(
       query,
-      [userId, type, weight, address, imgUrl, status],
+      [userId, type, weight, address, imgUrl, 'Belum diambil'],
       (err, _) => {
         if (err) {
           console.error('Error executing MySQL query:', err);
@@ -80,19 +81,20 @@ router.post(
 
 router.put(
   '/update/:id',
-  multer.single('attachment'),
+  authToken,
+  multer.single('image'),
   imgUpload.uploadToGcs,
   (req, res) => {
     const id = req.params.id;
-    const { type, weight, address, status } = req.body;
+    const { type, weight, address } = req.body;
     let imgUrl = '';
     if (req.file && req.file.cloudStoragePublicUrl) {
       imgUrl = req.file.cloudStoragePublicUrl;
     }
 
     const query =
-      'UPDATE wastes SET type=?, weight=?, address=?, image=?, status=? WHERE id=?';
-    db.query(query, [type, weight, address, imgUrl, status, id], (err, _) => {
+      'UPDATE wastes SET type=?, weight=?, address=?, image=? WHERE id=?';
+    db.query(query, [type, weight, address, imgUrl, id], (err, _) => {
       if (err) {
         console.error('Error executing MySQL query:', err);
         return res.status(500).send({ message: 'Internal server error' });

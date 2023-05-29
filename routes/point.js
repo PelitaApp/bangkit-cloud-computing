@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
+const { authToken } = require('../middleware/authToken');
 
-router.get('/total/:userId', (req, res) => {
+router.get('/total/:userId', authToken, (req, res) => {
   const id = req.params.userId;
 
   const query = 'SELECT total FROM points WHERE user_id=?';
@@ -15,7 +16,7 @@ router.get('/total/:userId', (req, res) => {
   });
 });
 
-router.put('/add/:userId', (req, res) => {
+router.put('/add/:userId', authToken, (req, res) => {
   const userId = req.params.userId;
   const { point } = req.body;
 
@@ -41,7 +42,7 @@ router.put('/add/:userId', (req, res) => {
   });
 });
 
-router.put('/reduce/:userId', (req, res) => {
+router.put('/reduce/:userId', authToken, (req, res) => {
   const userId = req.params.userId;
   const { point } = req.body;
 

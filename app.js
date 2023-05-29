@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
 const articleRouter = require('./routes/article');
+require('@google-cloud/debug-agent').start();
+
 const userRouter = require('./routes/user');
 const pointRouter = require('./routes/point');
 const wasteRouter = require('./routes/waste');

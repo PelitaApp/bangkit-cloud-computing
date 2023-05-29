@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
+const { authToken } = require('../middleware/authToken');
 
-router.get('/', (req, res) => {
+router.get('/', authToken, (req, res) => {
   const query = 'SELECT * FROM articles';
 
   db.query(query, (err, result) => {
@@ -15,7 +16,7 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/type/:type', (req, res) => {
+router.get('/type/:type', authToken, (req, res) => {
   const type = req.params.type;
 
   const query = 'SELECT * FROM articles WHERE type=?';
@@ -29,7 +30,7 @@ router.get('/type/:type', (req, res) => {
   });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', authToken, (req, res) => {
   const id = req.params.id;
 
   const query = 'SELECT * FROM articles WHERE id=?';

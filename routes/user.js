@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const db = require('../config/db');
 const jwt = require('jsonwebtoken');
+const { authToken } = require('../middleware/authToken');
 
 router.post('/register', (req, res) => {
   const { username, password } = req.body;
@@ -95,7 +96,7 @@ router.get('/login', (req, res) => {
   });
 });
 
-router.get('/', (req, res) => {
+router.get('/', authToken, (req, res) => {
   const query = 'SELECT * FROM users';
 
   db.query(query, (err, result) => {
@@ -108,7 +109,7 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', authToken, (req, res) => {
   const id = req.params.id;
 
   const query = 'SELECT * FROM users WHERE id=?';
@@ -122,7 +123,7 @@ router.get('/:id', (req, res) => {
   });
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', authToken, (req, res) => {
   const id = req.params.id;
   const { name, email, address } = req.body;
 
@@ -137,7 +138,7 @@ router.put('/:id', (req, res) => {
   });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', authToken, (req, res) => {
   const id = req.params.id;
 
   const query = 'DELETE FROM users WHERE id=?';
