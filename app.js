@@ -7,7 +7,7 @@ require('@google-cloud/debug-agent').start();
 
 const userRouter = require('./routes/user');
 const pointRouter = require('./routes/point');
-const wasteRouter = require('./routes/waste');
+const trashRouter = require('./routes/trash');
 
 const app = express();
 
@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use('/articles', articleRouter);
 app.use('/users', userRouter);
 app.use('/points', pointRouter);
-app.use('/wastes', wasteRouter);
+app.use('/trashes', trashRouter);
 
 app.get('/', (req, res) => {
   console.log('Response Success');

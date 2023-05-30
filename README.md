@@ -8,7 +8,7 @@ Meluncur🚀:
 - [User](#user)
 - [Point](#point)
 - [Article](#article)
-- [Waste](#waste)
+- [Trash](#trash)
 
 ## User
 
@@ -282,13 +282,13 @@ Meluncur🚀:
   }
   ```
 
-## Waste
+## Trash
 
 ---
 
-### Get All Wastes
+### Get All Trashes
 
-- Endpoint: /wastes
+- Endpoint: /trashes
 - Method: GET
 - Header:
   - Authorization: Bearer {token}
@@ -301,7 +301,7 @@ Meluncur🚀:
           "type": "besi",
           "weight": 6,
           "address": "Jl DI Panjaitan",
-          "image": "https://storage.googleapis.com/pelita-wastes/20230529-212919",
+          "image": "https://storage.googleapis.com/pelita-trashes/20230529-212919",
           "status": "Belum diambil",
           "created_at": "2023-05-29T14:29:23.000Z",
           "updated_at": "2023-05-29T14:29:23.000Z"
@@ -312,9 +312,9 @@ Meluncur🚀:
   ]
   ```
 
-### Get Wastes From User
+### Get Trashes From User
 
-- Endpoint: /wastes/user/:userId
+- Endpoint: /trashes/user/:userId
 - Method: GET
 - Params:
   - userId (integer)
@@ -329,7 +329,7 @@ Meluncur🚀:
         "type": "besi",
         "weight": 6,
         "address": "Jl DI Panjaitan",
-        "image": "https://storage.googleapis.com/pelita-wastes/20230529-212919",
+        "image": "https://storage.googleapis.com/pelita-trashes/20230529-212919",
         "status": "Belum diambil",
         "created_at": "2023-05-29T14:29:23.000Z",
         "updated_at": "2023-05-29T14:29:23.000Z"
@@ -340,9 +340,9 @@ Meluncur🚀:
   ]
   ```
 
-### Get Waste
+### Get Trash
 
-- Endpoint: /wastes/:id
+- Endpoint: /trashes/:id
 - Method: GET
 - Params:
   - id (integer)
@@ -356,16 +356,16 @@ Meluncur🚀:
       "type": "besi",
       "weight": 6,
       "address": "Jl DI Panjaitan",
-      "image": "https://storage.googleapis.com/pelita-wastes/20230529-212919",
+      "image": "https://storage.googleapis.com/pelita-trashes/20230529-212919",
       "status": "Belum diambil",
       "created_at": "2023-05-29T14:29:23.000Z",
       "updated_at": "2023-05-29T14:29:23.000Z"
   }
   ```
 
-### Create Waste
+### Create Trash
 
-- Endpoint: /wastes/create
+- Endpoint: /trashes/create
 - Method: POST
 - Header:
   - Authorization: Bearer {token}
@@ -378,13 +378,13 @@ Meluncur🚀:
 - Result:
   ```
   {
-      "message": "Waste created"
+      "message": "Trash created"
   }
   ```
 
-### Update Waste
+### Update Trash
 
-- Endpoint: /wastes/update/:id
+- Endpoint: /trashes/update/:id
 - Method: PUT
 - Params:
   - id (integer)
@@ -398,13 +398,13 @@ Meluncur🚀:
 - Result:
   ```
   {
-      "message": "Waste updated"
+      "message": "Trash updated"
   }
   ```
 
-### Change Status of Waste
+### Change Status of Trash
 
-- Endpoint: /wastes/taken/:id
+- Endpoint: /trashes/taken/:id
 - Method: PUT
 - Params:
   - id (integer)

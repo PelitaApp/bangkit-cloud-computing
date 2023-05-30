@@ -11,7 +11,7 @@ const multer = Multer({
 });
 
 router.get('/', authToken, (req, res) => {
-  const query = 'SELECT * FROM wastes';
+  const query = 'SELECT * FROM trashes';
   db.query(query, (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
@@ -25,7 +25,7 @@ router.get('/', authToken, (req, res) => {
 router.get('/user/:userId', authToken, (req, res) => {
   const userId = req.params.userId;
 
-  const query = 'SELECT * FROM wastes WHERE user_id=?';
+  const query = 'SELECT * FROM trashes WHERE user_id=?';
   db.query(query, [userId], (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
@@ -39,7 +39,7 @@ router.get('/user/:userId', authToken, (req, res) => {
 router.get('/:id', authToken, (req, res) => {
   const id = req.params.id;
 
-  const query = 'SELECT * FROM wastes WHERE id=?';
+  const query = 'SELECT * FROM trashes WHERE id=?';
   db.query(query, [id], (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
@@ -63,7 +63,7 @@ router.post(
     }
 
     const query =
-      'INSERT INTO wastes (user_id, type, weight, address, image, status) VALUES (?, ?, ?, ?, ?, ?)';
+      'INSERT INTO trashes (user_id, type, weight, address, image, status) VALUES (?, ?, ?, ?, ?, ?)';
     db.query(
       query,
       [userId, type, weight, address, imgUrl, 'Belum diambil'],
@@ -73,7 +73,7 @@ router.post(
           return res.status(500).send({ message: 'Internal server error' });
         }
 
-        return res.status(201).send({ message: 'Waste created' });
+        return res.status(201).send({ message: 'Trash created' });
       }
     );
   }
@@ -93,14 +93,14 @@ router.put(
     }
 
     const query =
-      'UPDATE wastes SET type=?, weight=?, address=?, image=? WHERE id=?';
+      'UPDATE trashes SET type=?, weight=?, address=?, image=? WHERE id=?';
     db.query(query, [type, weight, address, imgUrl, id], (err, _) => {
       if (err) {
         console.error('Error executing MySQL query:', err);
         return res.status(500).send({ message: 'Internal server error' });
       }
 
-      return res.status(201).send({ message: 'Waste updated' });
+      return res.status(201).send({ message: 'Trash updated' });
     });
   }
 );
@@ -109,7 +109,7 @@ router.put('/taken/:id', authToken, (req, res) => {
   const id = req.params.id;
   const status = 'Sudah diambil';
 
-  const query = 'UPDATE wastes SET status=? WHERE id=?';
+  const query = 'UPDATE trashes SET status=? WHERE id=?';
   db.query(query, [status, id], (err, _) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
