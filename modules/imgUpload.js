@@ -10,7 +10,7 @@ const gcs = new Storage({
   keyFilename: pathKey,
 });
 
-const bucketName = 'pelita-wastes';
+const bucketName = 'pelita-trashes';
 const bucket = gcs.bucket(bucketName);
 
 function getPublicUrl(filename) {
