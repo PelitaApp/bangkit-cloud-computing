@@ -122,10 +122,10 @@ router.get('/:id', authToken, (req, res) => {
 
 router.put('/update/:id', authToken, (req, res) => {
   const id = req.params.id;
-  const { name, email, address } = req.body;
+  const { name, email, phone } = req.body;
 
-  const query = 'UPDATE users SET name=?, email=?, address=? WHERE id=?';
-  db.query(query, [name, email, address, id], (err, _) => {
+  const query = 'UPDATE users SET name=?, email=?, phone=? WHERE id=?';
+  db.query(query, [name, email, phone, id], (err, _) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
       return res.status(500).send({ message: 'Internal server error' });
