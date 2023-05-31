@@ -6,16 +6,17 @@ const jwt = require('jsonwebtoken');
 const { authToken } = require('../middleware/authToken');
 
 router.post('/register', (req, res) => {
-  const { username, password } = req.body;
+  const { username, email, password } = req.body;
 
-  if (username == null || password == null) {
+  if (username == null || password == null || email == null) {
     return res
       .status(400)
       .send({ message: "username or password can't be empty" });
   }
 
-  const userExists = 'SELECT username FROM users WHERE username=?';
-  db.query(userExists, [username], (err, result) => {
+  const userExists =
+    'SELECT username, email FROM users WHERE username=? OR email=?';
+  db.query(userExists, [username, email], (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
       return res.status(500).send({ message: err.sqlMessage });
@@ -31,8 +32,9 @@ router.post('/register', (req, res) => {
         return res.status(500).send({ message: 'Internal server error' });
       }
 
-      const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
-      db.query(query, [username, hashedPassword], (err, _) => {
+      const query =
+        'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
+      db.query(query, [username, email, hashedPassword], (err, _) => {
         if (err) {
           console.error('Error executing MySQL query:', err);
           return res.status(500).send({ message: 'Internal server error' });
@@ -53,17 +55,17 @@ router.post('/register', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  const userQuery = 'SELECT * FROM users WHERE username=?';
-  db.query(userQuery, [username], (err, result) => {
+  const userQuery = 'SELECT * FROM users WHERE email=?';
+  db.query(userQuery, [email], (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
       return res.status(500).send({ message: 'Internal server error' });
     }
 
     if (result === 0) {
-      return res.status(401).send({ message: 'Invalid username or password ' });
+      return res.status(401).send({ message: 'Invalid email or password ' });
     }
 
     const user = result[0];
@@ -81,9 +83,7 @@ router.get('/login', (req, res) => {
 
       const token = jwt.sign({ userId: user.id }, 'secretKey');
 
-      return res
-        .status(200)
-        .send({ message: 'Login successful', data: user, token });
+      return res.status(200).send({ message: 'Login successful', token });
     });
   });
 });
@@ -94,7 +94,8 @@ router.get('/logout', authToken, (req, res) => {
 });
 
 router.get('/', authToken, (req, res) => {
-  const query = 'SELECT * FROM users';
+  const query =
+    'SELECT id, username, password, name, email, address FROM users';
 
   db.query(query, (err, result) => {
     if (err) {
@@ -109,7 +110,8 @@ router.get('/', authToken, (req, res) => {
 router.get('/:id', authToken, (req, res) => {
   const id = req.params.id;
 
-  const query = 'SELECT * FROM users WHERE id=?';
+  const query =
+    'SELECT id, username, password, name, email, address FROM users WHERE id=?';
   db.query(query, [id], (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);

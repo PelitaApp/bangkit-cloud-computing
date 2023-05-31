@@ -20,6 +20,7 @@ Meluncur🚀:
 - Method: POST
 - Body:
   - username (string)
+  - email (string)
   - password (string)
 - Result:
   ```
@@ -39,16 +40,6 @@ Meluncur🚀:
   ```
   {
       "message": "Login successful",
-      "data": {
-          "id": 1,
-          "username": "fauzanfl",
-          "password": "$2b$10$vEubmrz4CyeZPWVSidREF.XPrzh7UtaH8Ofa9SSTthEFeS/jK6xcW",
-          "name": "",
-          "email": "",
-          "address": "",
-          "created_at": "2023-05-29T12:57:56.000Z",
-          "updated_at": "2023-05-29T12:57:56.000Z"
-      },
       "token": {token}
   }
   ```
@@ -83,8 +74,6 @@ Meluncur🚀:
           "name": "Fauzan Fashihul Lisan",
           "email": "ffl@gmail.com",
           "address": "Jl. Sudagaran",
-          "created_at": "2023-05-29T12:57:56.000Z",
-          "updated_at": "2023-05-29T12:57:56.000Z"
       },
       {
           ...
@@ -108,9 +97,7 @@ Meluncur🚀:
       "password": "$2b$10$vEubmrz4CyeZPWVSidREF.XPrzh7UtaH8Ofa9SSTthEFeS/jK6xcW",
       "name": "Fauzan Fashihul Lisan",
       "email": "ffl@gmail.com",
-      "address": "Jl. Sudagaran",
-      "created_at": "2023-05-29T12:57:56.000Z",
-      "updated_at": "2023-05-29T12:57:56.000Z"
+      "address": "Jl. Sudagaran"
   }
   ```
 
@@ -125,7 +112,7 @@ Meluncur🚀:
 - Body:
   - name (string)
   - email (string)
-  - address (string)
+  - phone (string)
 - Result:
   ```
   {
@@ -222,8 +209,7 @@ Meluncur🚀:
           "text": "Kesadaran Masyarakat terhadap...",
           "type": "public",
           "link": "https://dlh.semarangkota.go.id/pentingnya-kesadaran-masyarakat-akan-kebersihan/",
-          "created_at": "2023-05-29T03:39:45.000Z",
-          "updated_at": "2023-05-29T03:39:45.000Z"
+          "created_at": "29-05-2023"
       },
       {
           ...
@@ -249,8 +235,7 @@ Meluncur🚀:
         "text": "Kesadaran Masyarakat terhadap...",
         "type": "public",
         "link": "https://dlh.semarangkota.go.id/pentingnya-kesadaran-masyarakat-akan-kebersihan/",
-        "created_at": "2023-05-29T03:39:45.000Z",
-        "updated_at": "2023-05-29T03:39:45.000Z"
+        "created_at": "29-05-2023"
     },
     {
         ...
@@ -277,8 +262,7 @@ Meluncur🚀:
       "text": "Kesadaran Masyarakat terhadap...",
       "type": "public",
       "link": "https://dlh.semarangkota.go.id/pentingnya-kesadaran-masyarakat-akan-kebersihan/",
-      "created_at": "2023-05-29T03:39:45.000Z",
-      "updated_at": "2023-05-29T03:39:45.000Z"
+      "created_at": "29-05-2023"
   }
   ```
 
@@ -297,14 +281,12 @@ Meluncur🚀:
   [
       {
           "id": 1,
-          "user_id": 1,
           "type": "besi",
           "weight": 6,
           "address": "Jl DI Panjaitan",
+          "note": "besi bekas",
           "image": "https://storage.googleapis.com/pelita-trashes/20230529-212919",
-          "status": "Belum diambil",
-          "created_at": "2023-05-29T14:29:23.000Z",
-          "updated_at": "2023-05-29T14:29:23.000Z"
+          "status": "Belum diambil"
       },
       {
           ...
@@ -325,14 +307,12 @@ Meluncur🚀:
   [
     {
         "id": 1,
-        "user_id": 1,
         "type": "besi",
         "weight": 6,
         "address": "Jl DI Panjaitan",
+        "note": "besi bekas",
         "image": "https://storage.googleapis.com/pelita-trashes/20230529-212919",
         "status": "Belum diambil",
-        "created_at": "2023-05-29T14:29:23.000Z",
-        "updated_at": "2023-05-29T14:29:23.000Z"
     },
     {
         ...
@@ -352,14 +332,11 @@ Meluncur🚀:
   ```
   {
       "id": 1,
-      "user_id": 1,
       "type": "besi",
       "weight": 6,
       "address": "Jl DI Panjaitan",
       "image": "https://storage.googleapis.com/pelita-trashes/20230529-212919",
-      "status": "Belum diambil",
-      "created_at": "2023-05-29T14:29:23.000Z",
-      "updated_at": "2023-05-29T14:29:23.000Z"
+      "status": "Belum diambil"
   }
   ```
 
@@ -374,6 +351,7 @@ Meluncur🚀:
   - image (image file)
   - type (string)
   - weight (integer)
+  - note (string)
   - address (string)
 - Result:
   ```
@@ -394,6 +372,7 @@ Meluncur🚀:
   - image (image file)
   - type (string)
   - weight (integer)
+  - note (string)
   - address (string)
 - Result:
   ```

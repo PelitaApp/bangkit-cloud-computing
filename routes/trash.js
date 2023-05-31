@@ -11,7 +11,8 @@ const multer = Multer({
 });
 
 router.get('/', authToken, (req, res) => {
-  const query = 'SELECT * FROM trashes';
+  const query =
+    'SELECT id, type, weight, address, note, image, status FROM trashes';
   db.query(query, (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
@@ -25,7 +26,8 @@ router.get('/', authToken, (req, res) => {
 router.get('/user/:userId', authToken, (req, res) => {
   const userId = req.params.userId;
 
-  const query = 'SELECT * FROM trashes WHERE user_id=?';
+  const query =
+    'SELECT id, type, weight, address, note, image, status FROM trashes WHERE user_id=?';
   db.query(query, [userId], (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
@@ -39,7 +41,8 @@ router.get('/user/:userId', authToken, (req, res) => {
 router.get('/:id', authToken, (req, res) => {
   const id = req.params.id;
 
-  const query = 'SELECT * FROM trashes WHERE id=?';
+  const query =
+    'SELECT id, type, weight, address, note, image, status FROM trashes WHERE id=?';
   db.query(query, [id], (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
