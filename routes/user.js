@@ -149,4 +149,25 @@ router.delete('/delete/:id', authToken, (req, res) => {
   });
 });
 
+router.put('/password/change/:id', authToken, (req, res) => {
+  const id = req.params.id;
+  const { password } = req.body;
+
+  bcrypt.hash(password, 10, (err, hashedPassword) => {
+    if (err) {
+      console.error('Error hashing password:', err);
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+    const query = 'UPDATE users SET password=? WHERE id=?';
+    db.query(query, [hashedPassword, id], (err, result) => {
+      if (err) {
+        console.error('Error executing MySQL query:', err);
+        return res.status(500).send({ message: 'Internal server error' });
+      }
+
+      return res.status(200).send({ message: 'Password changed' });
+    });
+  });
+});
+
 module.exports = router;
