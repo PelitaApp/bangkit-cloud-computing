@@ -56,17 +56,17 @@ router.post(
   multer.single('image'),
   imgUpload.uploadToGcs,
   (req, res) => {
-    const { userId, type, weight, address } = req.body;
+    const { userId, type, weight, note, address } = req.body;
     let imgUrl = '';
     if (req.file && req.file.cloudStoragePublicUrl) {
       imgUrl = req.file.cloudStoragePublicUrl;
     }
 
     const query =
-      'INSERT INTO trashes (user_id, type, weight, address, image, status) VALUES (?, ?, ?, ?, ?, ?)';
+      'INSERT INTO trashes (user_id, type, weight, note, address, image, status) VALUES (?, ?, ?, ?, ?, ?)';
     db.query(
       query,
-      [userId, type, weight, address, imgUrl, 'Belum diambil'],
+      [userId, type, weight, note, address, imgUrl, 'Belum diambil'],
       (err, _) => {
         if (err) {
           console.error('Error executing MySQL query:', err);
@@ -86,15 +86,15 @@ router.put(
   imgUpload.uploadToGcs,
   (req, res) => {
     const id = req.params.id;
-    const { type, weight, address } = req.body;
+    const { type, weight, note, address } = req.body;
     let imgUrl = '';
     if (req.file && req.file.cloudStoragePublicUrl) {
       imgUrl = req.file.cloudStoragePublicUrl;
     }
 
     const query =
-      'UPDATE trashes SET type=?, weight=?, address=?, image=? WHERE id=?';
-    db.query(query, [type, weight, address, imgUrl, id], (err, _) => {
+      'UPDATE trashes SET type=?, weight=?, note=?, address=?, image=? WHERE id=?';
+    db.query(query, [type, weight, note, address, imgUrl, id], (err, _) => {
       if (err) {
         console.error('Error executing MySQL query:', err);
         return res.status(500).send({ message: 'Internal server error' });
