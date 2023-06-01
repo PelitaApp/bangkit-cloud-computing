@@ -2,7 +2,7 @@
 
 API untuk aplikasi PELITA (Peduli Lingkungan Kita)
 
-**Base URL: ""** <br>
+**Base URL: "https://pelita-app.et.r.appspot.com/"** <br>
 Meluncur🚀:
 
 - [User](#user)
