@@ -83,7 +83,9 @@ router.get('/login', (req, res) => {
 
       const token = jwt.sign({ userId: user.id }, 'secretKey');
 
-      return res.status(200).send({ message: 'Login successful', token });
+      return res
+        .status(200)
+        .send({ message: 'Login successful', id: user.id, token });
     });
   });
 });
