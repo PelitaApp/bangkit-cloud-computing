@@ -123,4 +123,18 @@ router.put('/taken/:id', authToken, (req, res) => {
   });
 });
 
+router.delete('/delete/:id', authToken, (req, res) => {
+  const id = req.params.id;
+
+  const query = 'DELETE FROM trashes WHERE id=?';
+  db.query(query, [id], (err, _) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+  });
+
+  return res.status(200).send({ message: 'Trash delete successful' });
+});
+
 module.exports = router;
