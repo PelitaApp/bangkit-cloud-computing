@@ -3,6 +3,7 @@ const router = express.Router();
 const Multer = require('multer');
 const db = require('../config/db');
 const imgUpload = require('../modules/imgUpload');
+const imgDelete = require('../modules/imgDelete');
 const { authToken } = require('../middleware/authToken');
 
 const multer = Multer({
@@ -95,15 +96,34 @@ router.put(
       imgUrl = req.file.cloudStoragePublicUrl;
     }
 
-    const query =
-      'UPDATE trashes SET type=?, weight=?, note=?, address=?, image=? WHERE id=?';
-    db.query(query, [type, weight, note, address, imgUrl, id], (err, _) => {
+    const getImg = 'SELECT image FROM trashes WHERE id=?';
+    db.query(getImg, [id], (err, result) => {
       if (err) {
         console.error('Error executing MySQL query:', err);
         return res.status(500).send({ message: 'Internal server error' });
       }
 
-      return res.status(201).send({ message: 'Trash updated' });
+      const imgName = result.image;
+
+      const query =
+        'UPDATE trashes SET type=?, weight=?, note=?, address=?, image=? WHERE id=?';
+      db.query(
+        query,
+        [type, weight, note, address, imgUrl, id],
+        async (err, _) => {
+          if (err) {
+            console.error('Error executing MySQL query:', err);
+            return res.status(500).send({ message: 'Internal server error' });
+          }
+
+          const deleted = await imgDelete(imgName);
+          if (!deleted) {
+            return res.status(500).send({ message: 'Gagal menghapus file' });
+          } else {
+            return res.status(200).send({ message: 'Trash updated' });
+          }
+        }
+      );
     });
   }
 );
@@ -126,15 +146,30 @@ router.put('/taken/:id', authToken, (req, res) => {
 router.delete('/delete/:id', authToken, (req, res) => {
   const id = req.params.id;
 
-  const query = 'DELETE FROM trashes WHERE id=?';
-  db.query(query, [id], (err, _) => {
+  const getImg = 'SELECT image FROM trashes WHERE id=?';
+  db.query(getImg, [id], async (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
       return res.status(500).send({ message: 'Internal server error' });
     }
-  });
 
-  return res.status(200).send({ message: 'Trash delete successful' });
+    const imgName = result.image;
+    const deleted = await imgDelete(imgName);
+
+    if (!deleted) {
+      return res.status(500).send({ message: 'Gagal menghapus file' });
+    } else {
+      const query = 'DELETE FROM trashes WHERE id=?';
+      db.query(query, [id], (err, _) => {
+        if (err) {
+          console.error('Error executing MySQL query:', err);
+          return res.status(500).send({ message: 'Internal server error' });
+        }
+
+        return res.status(200).send({ message: 'Trash delete successful' });
+      });
+    }
+  });
 });
 
 module.exports = router;
