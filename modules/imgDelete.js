@@ -14,8 +14,9 @@ const bucket = gcs.bucket(bucketName);
 
 async function imgDelete(filename) {
   try {
-    const bucketName = gcs.bucket(bucketName);
-    const file = bucket.file(filename);
+    const path = 'https://storage.googleapis.com/' + bucketName + '/';
+    const name = filename.split(path);
+    const file = bucket.file(name[1]);
 
     await file.delete();
     return true;
@@ -25,4 +26,4 @@ async function imgDelete(filename) {
   }
 }
 
-exports.default = imgDelete;
+module.exports = imgDelete;

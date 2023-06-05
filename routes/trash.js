@@ -65,12 +65,13 @@ router.post(
     if (req.file && req.file.cloudStoragePublicUrl) {
       imgUrl = req.file.cloudStoragePublicUrl;
     }
+    const status = 'Belum diambil';
 
     const query =
-      'INSERT INTO trashes (user_id, type, weight, note, address, image, status) VALUES (?, ?, ?, ?, ?, ?)';
+      'INSERT INTO trashes (user_id, type, weight, note, address, image, status) VALUES (?, ?, ?, ?, ?, ?, ?)';
     db.query(
       query,
-      [userId, type, weight, note, address, imgUrl, 'Belum diambil'],
+      [userId, type, weight, note, address, imgUrl, status],
       (err, _) => {
         if (err) {
           console.error('Error executing MySQL query:', err);
@@ -103,7 +104,7 @@ router.put(
         return res.status(500).send({ message: 'Internal server error' });
       }
 
-      const imgName = result.image;
+      const imgName = result[0].image;
 
       const query =
         'UPDATE trashes SET type=?, weight=?, note=?, address=?, image=? WHERE id=?';
@@ -153,7 +154,7 @@ router.delete('/delete/:id', authToken, (req, res) => {
       return res.status(500).send({ message: 'Internal server error' });
     }
 
-    const imgName = result.image;
+    const imgName = result[0].image;
     const deleted = await imgDelete(imgName);
 
     if (!deleted) {

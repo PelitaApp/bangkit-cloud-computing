@@ -23,7 +23,9 @@ router.post('/register', (req, res) => {
     }
 
     if (result.length > 0) {
-      return res.status(409).send({ message: 'Username already exists' });
+      return res
+        .status(409)
+        .send({ message: 'Username or email already exists' });
     }
 
     bcrypt.hash(password, 10, (err, hashedPassword) => {
@@ -76,9 +78,7 @@ router.get('/login', (req, res) => {
       }
 
       if (!isMatch) {
-        return res
-          .status(401)
-          .send({ message: 'Invalid username or password ' });
+        return res.status(401).send({ message: 'Invalid email or password ' });
       }
 
       const token = jwt.sign({ userId: user.id }, 'secretKey');
@@ -113,7 +113,7 @@ router.get('/:id', authToken, (req, res) => {
   const id = req.params.id;
 
   const query =
-    'SELECT id, username, password, name, email, address FROM users WHERE id=?';
+    'SELECT id, username, password, name, email, phone FROM users WHERE id=?';
   db.query(query, [id], (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
