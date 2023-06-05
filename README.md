@@ -396,3 +396,18 @@ Meluncur🚀:
       "message": "Status changed"
   }
   ```
+
+### Delete Trash
+
+- Endpoint: /trashes/delete/:id
+- Method: DELETE
+- Params:
+  - id (integer)
+- Header:
+  - Authorization: Bearer {token}
+- Result:
+  ```
+  {
+      "message": "Trash delete successful"
+  }
+  ```
