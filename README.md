@@ -34,7 +34,7 @@ Meluncur🚀:
 - Endpoint: /users/login
 - Method: POST
 - Body:
-  - username (string)
+  - email (string)
   - password (string)
 - Result:
   ```
