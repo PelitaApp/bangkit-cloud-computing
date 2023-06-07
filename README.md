@@ -198,8 +198,6 @@ Meluncur🚀:
 
 - Endpoint: /articles
 - Method: GET
-- Header:
-  - Authorization: Bearer {token}
 - Result:
   ```
   [
@@ -224,8 +222,6 @@ Meluncur🚀:
 - Method: GET
 - Params:
   - type (string)
-- Header:
-  - Authorization: Bearer {token}
 - Result:
   ```
   [
@@ -253,7 +249,6 @@ Meluncur🚀:
 - Params:
   - id (integer)
 - Header:
-  - Authorization: Bearer {token}
 - Result:
   ```
   {
