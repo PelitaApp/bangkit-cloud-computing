@@ -20,7 +20,7 @@ router.post('/upload', authToken, (req, res) => {
   const { lat, lon } = req.body;
 
   const query = 'INSERT INTO locations (lat, lon) VALUES (?, ?)';
-  db.query(query, [lat, lon], (err, result) => {
+  db.query(query, [lat, lon], (err, _) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
       return res.status(500).send({ message: 'Internal server error' });
@@ -62,7 +62,7 @@ router.put('/:id', authToken, (req, res) => {
 router.delete('/:id', authToken, (req, res) => {
   const id = req.params.id;
 
-  const query = 'DELET FROM locations WHERE id=?';
+  const query = 'DELETE FROM locations WHERE id=?';
   db.query(query, [id], (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
