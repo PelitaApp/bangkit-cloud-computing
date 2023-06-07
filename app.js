@@ -2,9 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
-const articleRouter = require('./routes/article');
 require('@google-cloud/debug-agent').start();
-
+const articleRouter = require('./routes/article');
+const locationRouter = require('./routes/location');
 const userRouter = require('./routes/user');
 const pointRouter = require('./routes/point');
 const trashRouter = require('./routes/trash');
@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/articles', articleRouter);
+app.use('/locations', locationRouter);
 app.use('/users', userRouter);
 app.use('/points', pointRouter);
 app.use('/trashes', trashRouter);

@@ -406,3 +406,87 @@ Meluncur🚀:
       "message": "Trash delete successful"
   }
   ```
+
+## Location
+
+---
+
+### Get All Location
+
+- Endpoint: /locations
+- Method: GET
+- Header:
+  - Authorization: Bearer {token}
+- Result:
+  ```
+  [
+    {
+      "id": 1,
+      "lat": "3.5952",
+      "lon": "98.6722",
+    },
+    {
+      ...
+    }
+  ]
+  ```
+
+### Upload Location
+
+- Endpoint: /locations/upload
+- Method: POST
+- Body:
+  - lat (string)
+  - long (string)
+- Header:
+  - Authorization: Bearer {token}
+- Result:
+  ```
+  {
+      "message": "Location added"
+  }
+  ```
+
+### Get Location by Id
+
+- Endpoint: /locations/:id
+- Method: GET
+- Header:
+  - Authorization: Bearer {token}
+- Result:
+  ```
+  {
+    "id": 1,
+    "lat": "3.5952",
+    "lon": "98.6722",
+  }
+  ```
+
+### Update location
+
+- Endpoint: /locations/:id
+- Method: PUT
+- Body:
+  - lat (string)
+  - long (string)
+- Header:
+  - Authorization: Bearer {token}
+- Result:
+  ```
+  {
+    "message": "Location updated"
+  }
+  ```
+
+### Delete location
+
+- Endpoint: /locations/:id
+- Method: DELETE
+- Header:
+  - Authorization: Bearer {token}
+- Result:
+  ```
+  {
+    "message": "Location deleted"
+  }
+  ```
