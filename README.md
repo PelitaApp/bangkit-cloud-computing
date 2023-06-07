@@ -32,7 +32,7 @@ Meluncur🚀:
 ### Login
 
 - Endpoint: /users/login
-- Method: GET
+- Method: POST
 - Body:
   - username (string)
   - password (string)
