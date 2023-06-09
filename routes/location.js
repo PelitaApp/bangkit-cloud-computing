@@ -17,10 +17,10 @@ router.get('/', authToken, (req, res) => {
 });
 
 router.post('/upload', authToken, (req, res) => {
-  const { lat, lon } = req.body;
+  const { lat, lon, driverId } = req.body;
 
-  const query = 'INSERT INTO locations (lat, lon) VALUES (?, ?)';
-  db.query(query, [lat, lon], (err, result) => {
+  const query = 'INSERT INTO locations (lat, lon, driver_id) VALUES (?, ?, ?)';
+  db.query(query, [lat, lon, driverId], (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
       return res.status(500).send({ message: 'Internal server error' });

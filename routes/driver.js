@@ -18,7 +18,7 @@ router.post('/add', (req, res) => {
   const { name, phone } = req.body;
 
   const query = 'INSERT INTO drivers (name, status, phone) VALUES (?, ?, ?)';
-  db.query(query, [name, 'ready', phone], (err, result) => {
+  db.query(query, [name, 'ready', phone], (err, _) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
       return res.status(500).send({ message: 'Internal server error' });
@@ -33,7 +33,7 @@ router.put('/update/:id', (req, res) => {
   const { name, phone } = req.body;
 
   const query = 'UPDATE drivers SET name=?, phone=? WHERE id=?';
-  db.query(query, [name, phone, id], (err, result) => {
+  db.query(query, [name, phone, id], (err, _) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
       return res.status(500).send({ message: 'Internal server error' });
@@ -62,12 +62,26 @@ router.put('/change/status/:id', (req, res) => {
   const { status } = req.body;
 
   const query = 'UPDATE drivers SET status=? WHERE id=?';
-  db.query(query, [id, status], (err, result) => {
+  db.query(query, [id, status], (err, _) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
       return res.status(500).send({ message: 'Internal server error' });
     }
 
     return res.status(200).send({ message: 'Success change driver status' });
+  });
+});
+
+router.delete('/delete/:id', (req, res) => {
+  const id = req.params.id;
+
+  const query = 'DELETE FROM drivers WHERE id=?';
+  db.query(query, [id], (err, _) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+
+    return res.status(200).send({ message: 'Success delete driver' });
   });
 });
