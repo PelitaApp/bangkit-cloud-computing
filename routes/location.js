@@ -4,7 +4,7 @@ const db = require('../config/db');
 const { authToken } = require('../middleware/authToken');
 
 router.get('/', authToken, (req, res) => {
-  const query = 'SELECT id, lat, lon FROM locations';
+  const query = 'SELECT id, lat, lon, driver_id FROM locations';
 
   db.query(query, (err, result) => {
     if (err) {
@@ -33,7 +33,7 @@ router.post('/upload', authToken, (req, res) => {
 router.get('/:id', authToken, (req, res) => {
   const id = req.params.id;
 
-  const query = 'SELECT lat, lon FROM locations WHERE id=?';
+  const query = 'SELECT lat, lon, driver_id FROM locations WHERE id=?';
   db.query(query, [id], (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);

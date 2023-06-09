@@ -9,6 +9,8 @@ Meluncur🚀:
 - [Point](#point)
 - [Article](#article)
 - [Trash](#trash)
+- [Location](#location)
+- [Driver](#driver)
 
 ## User
 
@@ -379,10 +381,12 @@ Meluncur🚀:
 
 ### Change Status of Trash
 
-- Endpoint: /trashes/taken/:id
+- Endpoint: /change/:id
 - Method: PUT
 - Params:
   - id (integer)
+- Body:
+  - status (string)
 - Header:
   - Authorization: Bearer {token}
 - Result:
@@ -424,6 +428,7 @@ Meluncur🚀:
       "id": 1,
       "lat": "3.5952",
       "lon": "98.6722",
+      "driver_id": 1,
     },
     {
       ...
@@ -459,6 +464,7 @@ Meluncur🚀:
     "id": 1,
     "lat": "3.5952",
     "lon": "98.6722",
+    "driver_id": 1,
   }
   ```
 
@@ -488,5 +494,100 @@ Meluncur🚀:
   ```
   {
     "message": "Location deleted"
+  }
+  ```
+
+## Driver
+
+### Get all driver
+
+- Endpoint: /drivers
+- Method: GET
+- Result:
+  ```
+  [
+    {
+      "id": 1,
+      "name": "Supardi",
+      "status": "sedia",
+      "phone": "081225778909",
+    },
+    {
+      ...
+    }
+  ]
+  ```
+
+### Add driver
+
+- Endpoint: /drivers/add
+- Method: POST
+- Body:
+  - name (string)
+  - phone (string)
+- Result:
+  ```
+  {
+    "message": "Success add driver"
+  }
+  ```
+
+### Update driver
+
+- Endpoint: /drivers/update/:id
+- Method: PUT
+- Param:
+  - id (integer)
+- Body:
+  - name (string)
+  - phone (string)
+- Result:
+  ```
+  {
+    "message": "Success update driver"
+  }
+  ```
+
+### Get driver
+
+- Endpoint: /drivers/:id
+- Method: GET
+- Param:
+  - id (integer)
+- Result:
+  ```
+  {
+    "id": 1,
+    "name": "Supardi",
+    "status": "sedia",
+    "phone": "081225778909",
+  }
+  ```
+
+### Change status driver
+
+- Endpoint: /drivers/change/status/:id
+- Method: PUT
+- Param:
+  - id (integer)
+- Body:
+  - status (string)
+- Result:
+  ```
+  {
+    "message": "Success change driver status"
+  }
+  ```
+
+### Delete driver
+
+- Endpoint: /drivers/delete/:id
+- Method: DELETE
+- Param:
+  - id (integer)
+- Result:
+  ```
+  {
+    "message": "Success delete driver"
   }
   ```
