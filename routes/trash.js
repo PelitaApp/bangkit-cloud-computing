@@ -129,9 +129,9 @@ router.put(
   }
 );
 
-router.put('/taken/:id', authToken, (req, res) => {
+router.put('/change/:id', authToken, (req, res) => {
   const id = req.params.id;
-  const status = 'Sudah diambil';
+  const status = req.body;
 
   const query = 'UPDATE trashes SET status=? WHERE id=?';
   db.query(query, [status, id], (err, _) => {
