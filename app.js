@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 
 require('@google-cloud/debug-agent').start();
 const articleRouter = require('./routes/article');
+const driverRouter = require('./routes/driver');
 const locationRouter = require('./routes/location');
 const userRouter = require('./routes/user');
 const pointRouter = require('./routes/point');
@@ -15,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/articles', articleRouter);
+app.use('/drivers', driverRouter);
 app.use('/locations', locationRouter);
 app.use('/users', userRouter);
 app.use('/points', pointRouter);
