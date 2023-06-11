@@ -192,6 +192,70 @@ Meluncur🚀:
   }
   ```
 
+### Take point from user
+
+- Endpoint: /points/taken/:userId
+- Method: POST
+- Params:
+  - userId (integer)
+- Body:
+  - point (integer)
+  - phone (string)
+- Header:
+  - Authorization: Bearer {token}
+- Result:
+  ```
+  {
+      "message": "Point successfully taken"
+  }
+  ```
+
+### Get point taken from user
+
+- Endpoint: /points/taken/user/:userId
+- Method: GET
+- Params:
+  - userId (integer)
+- Header:
+  - Authorization: Bearer {token}
+- Result:
+
+  ```
+  [
+    {
+      "id": 1,
+      "user_id": 1,
+      "point_id: 1,
+      "point": 20,
+      "phone": "081999887247",
+      "created_at": "2023-06-05 09:58:54",
+      "updated_at": "2023-06-05 09:58:54"
+    }
+  ]
+
+  ```
+
+### Get point taken
+
+- Endpoint: /points/taken/:id
+- Method: GET
+- Params:
+  - id (integer)
+- Header:
+  - Authorization: Bearer {token}
+- Result:
+  ```
+  {
+    "id": 1,
+    "user_id": 1,
+    "point_id: 1,
+    "point": 20,
+    "phone": "081999887247",
+    "created_at": "2023-06-05 09:58:54",
+    "updated_at": "2023-06-05 09:58:54"
+  }
+  ```
+
 ## Article
 
 ---

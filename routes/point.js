@@ -68,4 +68,69 @@ router.put('/reduce/:userId', authToken, (req, res) => {
   });
 });
 
+router.post('/taken/:userId', authToken, (req, res) => {
+  const userId = req.params.userId;
+  const { point, phone } = req.body;
+
+  const getQuery = 'SELECT * FROM points WHERE user_id=?';
+  db.query(getQuery, [userId], (err, result) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).send({ message: 'Internal server error' });
+    }
+
+    const pointUser = result[0];
+    const newPoint = parseInt(pointUser.total) - parseInt(point);
+
+    const updateQuery = 'UPDATE points SET total=? WHERE id=?';
+    db.query(updateQuery, [newPoint, pointUser.id], (err, result) => {
+      if (err) {
+        console.error('Error executing MySQL query:', err);
+        return res.status(500).send({ message: 'Internal server error' });
+      }
+
+      const createQUery =
+        'INSERT INTO point_taken (user_id, point_id, point, phone) VALUES (?, ?, ?, ?)';
+      db.query(
+        createQUery,
+        [userId, pointUser.id, point, phone],
+        (err, result) => {
+          if (err) {
+            console.error('Error executing MySQL query:', err);
+            return res.status(500).send({ message: 'Internal server error' });
+          }
+
+          res.status(201).send({ message: 'Point successfully taken' });
+        }
+      );
+    });
+  });
+});
+
+router.get('/taken/user/:userId', authToken, (req, res) => {
+  const userId = req.params.userId;
+
+  const query = 'SELECT * FROM point_taken WHERE user_id=?';
+  db.query(query, [userId], (err, result) => {
+    if (err) {
+      return res.status(500).json({ message: err.sqlMessage });
+    } else {
+      return res.status(200).send(result);
+    }
+  });
+});
+
+router.get('/taken/:id', authToken, (req, res) => {
+  const id = req.params.id;
+
+  const query = 'SELECT * FROM point_taken WHERE id=?';
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      return res.status(500).json({ message: err.sqlMessage });
+    } else {
+      return res.status(200).send(result[0]);
+    }
+  });
+});
+
 module.exports = router;
