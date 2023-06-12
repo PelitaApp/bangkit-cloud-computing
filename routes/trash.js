@@ -13,7 +13,7 @@ const multer = Multer({
 
 router.get('/', authToken, (req, res) => {
   const query =
-    'SELECT id, type, weight, address, note, image, status FROM trashes';
+    'SELECT id, user_id, driver_id, type, weight, address, note, image, status FROM trashes';
   db.query(query, (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
@@ -28,7 +28,7 @@ router.get('/user/:userId', authToken, (req, res) => {
   const userId = req.params.userId;
 
   const query =
-    'SELECT id, type, weight, address, note, image, status FROM trashes WHERE user_id=?';
+    'SELECT id, user_id, driver_id, type, weight, address, note, image, status FROM trashes WHERE user_id=?';
   db.query(query, [userId], (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
@@ -43,7 +43,7 @@ router.get('/:id', authToken, (req, res) => {
   const id = req.params.id;
 
   const query =
-    'SELECT id, type, weight, address, note, image, status FROM trashes WHERE id=?';
+    'SELECT id, user_id, driver_id, type, weight, address, note, image, status FROM trashes WHERE id=?';
   db.query(query, [id], (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
@@ -131,10 +131,10 @@ router.put(
 
 router.put('/change/:id', authToken, (req, res) => {
   const id = req.params.id;
-  const status = req.body;
+  const { status, driverId } = req.body;
 
-  const query = 'UPDATE trashes SET status=? WHERE id=?';
-  db.query(query, [status, id], (err, _) => {
+  const query = 'UPDATE trashes SET status=?, driver_id=? WHERE id=?';
+  db.query(query, [status, driverId, id], (err, _) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
       return res.status(500).send({ message: 'Internal server error' });

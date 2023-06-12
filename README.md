@@ -343,6 +343,8 @@ Meluncur🚀:
   [
       {
           "id": 1,
+          "user_id": 1,
+          "driver_id": 1,
           "type": "besi",
           "weight": 6,
           "address": "Jl DI Panjaitan",
@@ -369,6 +371,8 @@ Meluncur🚀:
   [
     {
         "id": 1,
+        "user_id": 1,
+        "driver_id": 1,
         "type": "besi",
         "weight": 6,
         "address": "Jl DI Panjaitan",
@@ -394,6 +398,8 @@ Meluncur🚀:
   ```
   {
       "id": 1,
+      "user_id": 1,
+      "driver_id": 1,
       "type": "besi",
       "weight": 6,
       "address": "Jl DI Panjaitan",
@@ -451,6 +457,7 @@ Meluncur🚀:
   - id (integer)
 - Body:
   - status (string)
+  - userId (integer)
 - Header:
   - Authorization: Bearer {token}
 - Result:
