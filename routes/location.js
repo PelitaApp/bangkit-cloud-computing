@@ -25,9 +25,10 @@ router.post('/upload', authToken, (req, res) => {
       console.error('Error executing MySQL query:', err);
       return res.status(500).send({ message: 'Internal server error' });
     }
+    
+    return res.status(201).send({ message: 'Location added' }); 
   });
 
-  return res.status(201).send({ message: 'Location added' });
 });
 
 router.get('/:id', authToken, (req, res) => {

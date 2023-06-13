@@ -513,7 +513,7 @@ Meluncur🚀:
 - Method: POST
 - Body:
   - lat (string)
-  - long (string)
+  - lon (string)
   - driverId (integer)
 - Header:
   - Authorization: Bearer {token}
