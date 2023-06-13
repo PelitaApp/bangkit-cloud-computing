@@ -457,7 +457,7 @@ Meluncur🚀:
   - id (integer)
 - Body:
   - status (string)
-  - userId (integer)
+  - driverId (integer)
 - Header:
   - Authorization: Bearer {token}
 - Result:
@@ -514,6 +514,7 @@ Meluncur🚀:
 - Body:
   - lat (string)
   - long (string)
+  - driverId (integer)
 - Header:
   - Authorization: Bearer {token}
 - Result:
