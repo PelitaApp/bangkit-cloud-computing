@@ -19,16 +19,29 @@ router.get('/', authToken, (req, res) => {
 router.post('/upload', authToken, (req, res) => {
   const { lat, lon, driverId } = req.body;
 
-  const query = 'INSERT INTO locations (lat, lon, driver_id) VALUES (?, ?, ?)';
-  db.query(query, [lat, lon, driverId], (err, result) => {
+  const getQuery = 'SELECT * FROM locations WHERE driver_id=?';
+  db.query(getQuery, [driverId], (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
       return res.status(500).send({ message: 'Internal server error' });
     }
-    
-    return res.status(201).send({ message: 'Location added' }); 
-  });
 
+    if (result.length > 0) {
+      const msg = "Can't add more location!";
+      return res.status(409).send({ message: msg });
+    }
+
+    const query =
+      'INSERT INTO locations (lat, lon, driver_id) VALUES (?, ?, ?)';
+    db.query(query, [lat, lon, driverId], (err, result) => {
+      if (err) {
+        console.error('Error executing MySQL query:', err);
+        return res.status(500).send({ message: 'Internal server error' });
+      }
+
+      return res.status(201).send({ message: 'Location added' });
+    });
+  });
 });
 
 router.get('/:id', authToken, (req, res) => {
