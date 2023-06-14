@@ -81,6 +81,10 @@ router.post('/taken/:userId', authToken, (req, res) => {
 
     const pointUser = result[0];
     const newPoint = parseInt(pointUser.total) - parseInt(point);
+    if (newPoint < 0) {
+      const msg = 'Input point must not greater than ' + pointUser.total
+      return res.status(400).send({message: msg})
+    }
 
     const updateQuery = 'UPDATE points SET total=? WHERE id=?';
     db.query(updateQuery, [newPoint, pointUser.id], (err, result) => {

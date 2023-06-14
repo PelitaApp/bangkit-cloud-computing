@@ -134,10 +134,14 @@ router.put('/change/:id', authToken, (req, res) => {
   const { status, driverId } = req.body;
 
   const query = 'UPDATE trashes SET status=?, driver_id=? WHERE id=?';
-  db.query(query, [status, driverId, id], (err, _) => {
+  db.query(query, [status, driverId, id], (err, result) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
       return res.status(500).send({ message: 'Internal server error' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(400).send({ message: "Can't change status" });
     }
 
     return res.status(200).send({ message: 'Status changed' });
