@@ -62,7 +62,7 @@ router.put('/change/status/:id', (req, res) => {
   const { status } = req.body;
 
   const query = 'UPDATE drivers SET status=? WHERE id=?';
-  db.query(query, [id, status], (err, _) => {
+  db.query(query, [status, id], (err, _) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
       return res.status(500).send({ message: 'Internal server error' });
