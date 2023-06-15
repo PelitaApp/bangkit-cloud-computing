@@ -12,6 +12,16 @@ Meluncur🚀:
 - [Location](#location)
 - [Driver](#driver)
 
+---
+
+API untuk model machine learning
+**Base URL: "https://modelapi-t5wb5y3n3a-et.a.run.app/"** <br>
+Meluncur🚀:
+
+- [Prediction](#prediction)
+
+---
+
 ## User
 
 ---
@@ -661,5 +671,18 @@ Meluncur🚀:
   ```
   {
     "message": "Success delete driver"
+  }
+  ```
+
+## Prediction
+
+- Endpoint: /predict
+- Method: POST
+- Param:
+  - file (image file)
+- Result:
+  ```
+  {
+    "prediction": "toothbrush"
   }
   ```
